@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Cormorant_Garamond, Inter } from "next/font/google"
+import { Cormorant_Garamond, Inter, Whisper } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import Navbar from "@/components/layout/Navbar"
@@ -18,6 +18,13 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 })
 
+const whisper = Whisper({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-whisper",
+  display: "swap",
+})
+
 export const metadata: Metadata = {
   title: "Fragrances - Boutique de Parfums",
   description: "Découvrez notre collection de fragrances élégantes",
@@ -31,7 +38,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className={`font-sans ${inter.variable} ${cormorant.variable}`}>
+      <body className={`font-sans ${inter.variable} ${cormorant.variable} ${whisper.variable}`}>
         <Navbar />
         {children}
         <Analytics />
