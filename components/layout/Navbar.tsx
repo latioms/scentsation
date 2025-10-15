@@ -18,16 +18,16 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="bg-amber-50 border-b border-amber-200">
+    <nav className="bg-background border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="h-16 md:grid md:grid-cols-3 md:items-center md:gap-4 flex items-center justify-between">
           {/* Desktop Left Menu */}
-          <div className="hidden md:flex items-center justify-end space-x-6">
+          <div className="hidden md:flex items-center justify-start space-x-6">
             {menuItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-amber-900 hover:text-amber-700 transition-colors duration-200 text-sm font-medium"
+                className="text-foreground hover:text-muted-foreground transition-colors duration-200 text-sm font-medium"
               >
                 {item.name}
               </Link>
@@ -36,36 +36,36 @@ export default function Navbar() {
 
           {/* Logo - Center Desktop / Left Mobile */}
           <Link href="/" className="flex items-center md:justify-center">
-            <span className="text-2xl font-serif text-amber-900 whitespace-nowrap">
+            <span className="text-2xl font-serif text-foreground whitespace-nowrap">
               Scent<span className="italic">Sation</span><sup className="text-xs">™</sup>
             </span>
           </Link>
 
           {/* Desktop Right Section / Mobile Burger */}
-          <div className="flex items-center md:justify-start">
+          <div className="flex items-center md:justify-end">
             {/* Desktop Menu */}
-            <div className="hidden md:flex items-center space-x-6">
+            <div className="hidden md:flex items-center space-x-6 lg:justify-end">
               <Link
                 href="/account"
-                className="text-amber-900 hover:text-amber-700 transition-colors duration-200 text-sm"
+                className="text-foreground hover:text-muted-foreground transition-colors duration-200 text-sm"
               >
                 Account
               </Link>
               <Link
                 href="/favorites"
-                className="text-amber-900 hover:text-amber-700 transition-colors duration-200 text-sm"
+                className="text-foreground hover:text-muted-foreground transition-colors duration-200 text-sm"
               >
                 Favorites
               </Link>
               <Link
                 href="/search"
-                className="text-amber-900 hover:text-amber-700 transition-colors duration-200 text-sm"
+                className="text-foreground hover:text-muted-foreground transition-colors duration-200 text-sm"
               >
                 Search
               </Link>
               <Link
                 href="/cart"
-                className="text-amber-900 hover:text-amber-700 transition-colors duration-200 text-sm"
+                className="text-foreground hover:text-muted-foreground transition-colors duration-200 text-sm"
               >
                 Bag (0)
               </Link>
@@ -74,7 +74,7 @@ export default function Navbar() {
             {/* Mobile Burger Button */}
             <button
               onClick={toggleMenu}
-              className="md:hidden p-2 rounded-md text-amber-900 hover:bg-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="md:hidden p-2 rounded-md text-foreground hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring"
               aria-label="Toggle menu"
             >
               <svg
@@ -93,6 +93,7 @@ export default function Navbar() {
                 )}
               </svg>
             </button>
+
           </div>
         </div>
       </div>
@@ -111,19 +112,19 @@ export default function Navbar() {
 
         {/* Drawer */}
         <div
-          className={`fixed top-0 right-0 h-full w-80 bg-amber-50 shadow-xl transform transition-transform duration-300 ease-in-out ${
+          className={`fixed top-0 right-0 h-full w-80 bg-background shadow-xl transform transition-transform duration-300 ease-in-out ${
             isOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
           <div className="flex flex-col h-full">
             {/* Drawer Header */}
-            <div className="flex justify-between items-center p-4 border-b border-amber-200">
-              <span className="text-xl font-serif text-amber-900">
+            <div className="flex justify-between items-center p-4 border-b">
+              <span className="text-xl font-serif text-foreground">
                 Scent<span className="italic">Sation</span><sup className="text-xs">™</sup>
               </span>
               <button
                 onClick={toggleMenu}
-                className="p-2 rounded-md text-amber-900 hover:bg-amber-100"
+                className="p-2 rounded-md text-foreground hover:bg-accent"
                 aria-label="Close menu"
               >
                 <svg
@@ -149,7 +150,7 @@ export default function Navbar() {
                     key={item.name}
                     href={item.href}
                     onClick={toggleMenu}
-                    className="block px-4 py-3 text-base font-medium text-amber-900 hover:bg-amber-100 rounded-md transition-colors duration-200"
+                    className="block px-4 py-3 text-base font-medium text-foreground hover:bg-accent rounded-md transition-colors duration-200"
                   >
                     {item.name}
                   </Link>
@@ -157,35 +158,35 @@ export default function Navbar() {
               </div>
 
               {/* Divider */}
-              <div className="my-6 border-t border-amber-200" />
+              <div className="my-6 border-t" />
 
               {/* Secondary Navigation */}
               <div className="px-4 space-y-1">
                 <Link
                   href="/account"
                   onClick={toggleMenu}
-                  className="block px-4 py-3 text-base text-amber-900 hover:bg-amber-100 rounded-md transition-colors duration-200"
+                  className="block px-4 py-3 text-base text-foreground hover:bg-accent rounded-md transition-colors duration-200"
                 >
                   Account
                 </Link>
                 <Link
                   href="/favorites"
                   onClick={toggleMenu}
-                  className="block px-4 py-3 text-base text-amber-900 hover:bg-amber-100 rounded-md transition-colors duration-200"
+                  className="block px-4 py-3 text-base text-foreground hover:bg-accent rounded-md transition-colors duration-200"
                 >
                   Favorites
                 </Link>
                 <Link
                   href="/search"
                   onClick={toggleMenu}
-                  className="block px-4 py-3 text-base text-amber-900 hover:bg-amber-100 rounded-md transition-colors duration-200"
+                  className="block px-4 py-3 text-base text-foreground hover:bg-accent rounded-md transition-colors duration-200"
                 >
                   Search
                 </Link>
                 <Link
                   href="/cart"
                   onClick={toggleMenu}
-                  className="block px-4 py-3 text-base text-amber-900 hover:bg-amber-100 rounded-md transition-colors duration-200"
+                  className="block px-4 py-3 text-base text-foreground hover:bg-accent rounded-md transition-colors duration-200"
                 >
                   Bag (0)
                 </Link>
