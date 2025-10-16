@@ -216,9 +216,9 @@ export default function ProductFilters({
       {/* Clear Filters */}
       <button
         onClick={clearFilters}
-        className="w-full py-2 text-sm font-medium border rounded-lg hover:bg-accent transition-colors"
+        className="w-full p-2 text-sm font-medium border rounded-sm hover:bg-accent transition-colors"
       >
-        Réinitialiser les filtres
+        Réinitialiser 
       </button>
     </div>
   );
@@ -235,7 +235,7 @@ export default function ProductFilters({
 
       {/* Desktop Sidebar */}
       <div className="hidden lg:block">
-        <div className="bg-card p-6 rounded-lg shadow-sm border sticky top-4">
+        <div className="bg-card p-6 rounded-non shadow-sm border sticky top-4">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold text-foreground">Filtres</h2>
           </div>

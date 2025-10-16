@@ -61,7 +61,7 @@ export default function ProductsClient({ products }: ProductsClientProps) {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
-                className="px-4 py-2 border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                className="px-4 py-2 border rounded-none bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               >
                 <option value="newest">Nouveautés</option>
                 <option value="price-asc">Prix croissant</option>
