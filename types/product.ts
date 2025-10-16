@@ -1,6 +1,7 @@
 export type Sexe = 'Homme' | 'Femme' | 'Mixte';
 
-export type Categorie = 'Parfums' | 'Huiles de Parfum' | 'Déodorants';
+// Categorie est maintenant dynamique et peut être n'importe quelle string
+export type Categorie = string;
 
 export interface Product {
   id: string;
@@ -11,10 +12,9 @@ export interface Product {
   contenance: string; // "10ml", "50ml", "100ml"
   prix: number; // Prix en XAF
   categorie: Categorie;
-  rating: number; // Note moyenne sur 5
-  ratings: number; // Nombre de votes
-  image: string; // URL de l'image
-  images?: string[]; // Images additionnelles
+  thumbnail: string; // URL de l'image principale
+  images?: string[]; // Images additionnelles (array)
+  likes: number; // Nombre de likes
   inStock?: boolean;
   isNew?: boolean;
   isBestSeller?: boolean;

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Product } from '@/types/product';
 import { Star } from 'lucide-react';
+import ProductImage from './ProductImage';
 
 interface ProductCardProps {
   product: Product;
@@ -30,14 +31,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         {/* Image */}
         <div className="aspect-square bg-muted relative overflow-hidden">
-          <img
-            src={product.image}
-            alt={product.titre}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            onError={(e) => {
-              e.currentTarget.src = '/placeholder-product.jpg';
-            }}
-          />
+                    <ProductImage src={product.thumbnail} alt={product.titre} />
         </div>
 
         {/* Content */}
@@ -64,7 +58,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                 <Star
                   key={i}
                   className={`w-4 h-4 ${
-                    i < Math.floor(product.rating)
+                    i < Math.floor(product.likes)
                       ? 'fill-primary text-primary'
                       : 'text-muted'
                   }`}
@@ -72,7 +66,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               ))}
             </div>
             <span className="text-xs text-muted-foreground">
-              ({product.ratings})
+              ({product.likes})
             </span>
           </div>
 

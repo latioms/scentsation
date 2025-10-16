@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import ProductCard from '@/components/ProductCard';
-import { products } from '@/lib/products';
+import { getAllProducts } from '@/lib/products';
 import { ArrowRight } from 'lucide-react';
 
-export default function Home() {
+export default async function Home() {
+  const products = await getAllProducts();
   const featuredProducts = products.filter((p) => p.isBestSeller || p.isNew).slice(0, 4);
 
   return (
