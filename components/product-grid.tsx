@@ -71,7 +71,7 @@ export function ProductGrid({ products }: ProductGridProps) {
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <span>{product.category}</span>
                 <span>•</span>
-                <span>{product.size}</span>
+                <span>{product.size}ml</span>
               </div>
             </div>
           </CardContent>

@@ -25,12 +25,12 @@ export default function ProductsClient({ products }: ProductsClientProps) {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <div className="bg-muted border-b">
+      <div className="bg-amber-300/80 border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <h1 className="text-6xl font-whisper text-foreground mb-4">
             Tous nos Produits
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl">
+          <p className="text-lg text-foreground max-w-2xl">
             Explorez notre collection complète de fragrances avec des filtres avancés pour trouver votre parfum idéal.
           </p>
         </div>

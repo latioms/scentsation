@@ -36,6 +36,37 @@ export async function getAllProducts(): Promise<Product[]> {
   }
 }
 
+// Fonction pour récupérer un produit par son ID
+export async function getProductById(id: string): Promise<Product | null> {
+  try {
+    const response = await databases.getDocument(
+      DATABASE_ID,
+      PRODUCTS_COLLECTION_ID,
+      id
+    );
+    
+    return {
+      id: response.$id,
+      titre: response.titre,
+      marque: response.marque,
+      description: response.description,
+      sexe: response.sexe,
+      contenance: response.contenance,
+      prix: response.prix,
+      categorie: response.categorie,
+      thumbnail: response.thumbnail,
+      images: response.images || [],
+      likes: response.likes || 0,
+      inStock: response.inStock,
+      isNew: response.isNew || false,
+      isBestSeller: response.isBestSeller || false,
+    } as Product;
+  } catch (error) {
+    console.error('Error fetching product:', error);
+    return null;
+  }
+}
+
 // Fonction pour obtenir les marques uniques
 export function getUniqueMarques(products: Product[]): string[] {
   return Array.from(new Set(products.map((p) => p.marque).filter(Boolean))).sort();

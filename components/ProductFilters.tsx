@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { FilterOptions, Categorie, Sexe } from '@/types/product';
-import { X, SlidersHorizontal } from 'lucide-react';
+import { X, SlidersHorizontal, ChevronDown } from 'lucide-react';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 interface ProductFiltersProps {
   filters: FilterOptions;
@@ -21,9 +22,20 @@ export default function ProductFilters({
 }: ProductFiltersProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [currentPrice, setCurrentPrice] = useState(filters.priceRange?.max || priceRange.max);
+  const [openSections, setOpenSections] = useState({
+    categories: true,
+    sexes: true,
+    marques: true,
+    contenances: true,
+    prix: true,
+  });
 
   const categories: Categorie[] = ['Parfums', 'Huiles de Parfum', 'Déodorants'];
   const sexes: Sexe[] = ['Homme', 'Femme', 'Mixte'];
+
+  const toggleSection = (section: keyof typeof openSections) => {
+    setOpenSections((prev) => ({ ...prev, [section]: !prev[section] }))
+  };
 
   const handleCategoryToggle = (category: Categorie) => {
     const current = filters.categories || [];
@@ -77,94 +89,129 @@ export default function ProductFilters({
   const FilterContent = () => (
     <div className="space-y-6">
       {/* Catégories */}
-      <div>
-        <h3 className="font-semibold text-foreground mb-3">Catégories</h3>
-        <div className="space-y-2">
-          {categories.map((category) => (
-            <label key={category} className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={filters.categories?.includes(category) || false}
-                onChange={() => handleCategoryToggle(category)}
-                className="rounded border-input text-primary focus:ring-ring"
-              />
-              <span className="text-sm text-foreground">{category}</span>
-            </label>
-          ))}
-        </div>
-      </div>
+      <Collapsible open={openSections.categories} onOpenChange={() => toggleSection('categories')}>
+        <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-sm font-semibold text-foreground">
+          Catégories
+          <ChevronDown className={`h-4 w-4 transition-transform ${openSections.categories ? 'rotate-180' : ''}`} />
+        </CollapsibleTrigger>
+        <CollapsibleContent className="pt-3">
+          <div className="space-y-2">
+            {categories.map((category) => (
+              <label key={category} className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={filters.categories?.includes(category) || false}
+                  onChange={() => handleCategoryToggle(category)}
+                  className="rounded border-input text-primary focus:ring-ring"
+                />
+                <span className="text-sm text-foreground">{category}</span>
+              </label>
+            ))}
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
+
+      <div className="border-t border-border" />
 
       {/* Sexe */}
-      <div>
-        <h3 className="font-semibold text-foreground mb-3">Genre</h3>
-        <div className="space-y-2">
-          {sexes.map((sexe) => (
-            <label key={sexe} className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={filters.sexes?.includes(sexe) || false}
-                onChange={() => handleSexeToggle(sexe)}
-                className="rounded border-input text-primary focus:ring-ring"
-              />
-              <span className="text-sm text-foreground">{sexe}</span>
-            </label>
-          ))}
-        </div>
-      </div>
+      <Collapsible open={openSections.sexes} onOpenChange={() => toggleSection('sexes')}>
+        <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-sm font-semibold text-foreground">
+          Genre
+          <ChevronDown className={`h-4 w-4 transition-transform ${openSections.sexes ? 'rotate-180' : ''}`} />
+        </CollapsibleTrigger>
+        <CollapsibleContent className="pt-3">
+          <div className="space-y-2">
+            {sexes.map((sexe) => (
+              <label key={sexe} className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={filters.sexes?.includes(sexe) || false}
+                  onChange={() => handleSexeToggle(sexe)}
+                  className="rounded border-input text-primary focus:ring-ring"
+                />
+                <span className="text-sm text-foreground">{sexe}</span>
+              </label>
+            ))}
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
+
+      <div className="border-t border-border" />
 
       {/* Marques */}
-      <div>
-        <h3 className="font-semibold text-foreground mb-3">Marques</h3>
-        <div className="space-y-2">
-          {marques.map((marque) => (
-            <label key={marque} className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={filters.marques?.includes(marque) || false}
-                onChange={() => handleMarqueToggle(marque)}
-                className="rounded border-input text-primary focus:ring-ring"
-              />
-              <span className="text-sm text-foreground">{marque}</span>
-            </label>
-          ))}
-        </div>
-      </div>
+      <Collapsible open={openSections.marques} onOpenChange={() => toggleSection('marques')}>
+        <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-sm font-semibold text-foreground">
+          Marques
+          <ChevronDown className={`h-4 w-4 transition-transform ${openSections.marques ? 'rotate-180' : ''}`} />
+        </CollapsibleTrigger>
+        <CollapsibleContent className="pt-3">
+          <div className="space-y-2">
+            {marques.map((marque) => (
+              <label key={marque} className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={filters.marques?.includes(marque) || false}
+                  onChange={() => handleMarqueToggle(marque)}
+                  className="rounded border-input text-primary focus:ring-ring"
+                />
+                <span className="text-sm text-foreground">{marque}</span>
+              </label>
+            ))}
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
+
+      <div className="border-t border-border" />
 
       {/* Contenance */}
-      <div>
-        <h3 className="font-semibold text-foreground mb-3">Contenance</h3>
-        <div className="space-y-2">
-          {contenances.map((contenance) => (
-            <label key={contenance} className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={filters.contenances?.includes(contenance) || false}
-                onChange={() => handleContenanceToggle(contenance)}
-                className="rounded border-input text-primary focus:ring-ring"
-              />
-              <span className="text-sm text-foreground">{contenance}</span>
-            </label>
-          ))}
-        </div>
-      </div>
+      <Collapsible open={openSections.contenances} onOpenChange={() => toggleSection('contenances')}>
+        <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-sm font-semibold text-foreground">
+          Contenance
+          <ChevronDown className={`h-4 w-4 transition-transform ${openSections.contenances ? 'rotate-180' : ''}`} />
+        </CollapsibleTrigger>
+        <CollapsibleContent className="pt-3">
+          <div className="space-y-2">
+            {contenances.map((contenance) => (
+              <label key={contenance} className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={filters.contenances?.includes(contenance) || false}
+                  onChange={() => handleContenanceToggle(contenance)}
+                  className="rounded border-input text-primary focus:ring-ring"
+                />
+                <span className="text-sm text-foreground">{contenance}ml</span>
+              </label>
+            ))}
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
+
+      <div className="border-t border-border" />
 
       {/* Prix */}
-      <div>
-        <h3 className="font-semibold text-foreground mb-3">Prix maximum</h3>
-        <div className="space-y-2">
-          <input
-            type="range"
-            min={priceRange.min}
-            max={priceRange.max}
-            value={currentPrice}
-            onChange={(e) => handlePriceChange(Number(e.target.value))}
-            className="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"
-          />
-          <p className="text-sm text-muted-foreground font-medium">
-            Jusqu'à {formatPrice(currentPrice)}
-          </p>
-        </div>
-      </div>
+      <Collapsible open={openSections.prix} onOpenChange={() => toggleSection('prix')}>
+        <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-sm font-semibold text-foreground">
+          Prix maximum
+          <ChevronDown className={`h-4 w-4 transition-transform ${openSections.prix ? 'rotate-180' : ''}`} />
+        </CollapsibleTrigger>
+        <CollapsibleContent className="pt-3">
+          <div className="space-y-2">
+            <input
+              type="range"
+              min={priceRange.min}
+              max={priceRange.max}
+              value={currentPrice}
+              onChange={(e) => handlePriceChange(Number(e.target.value))}
+              className="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"
+            />
+            <p className="text-sm text-muted-foreground font-medium">
+              Jusqu'à {formatPrice(currentPrice)}
+            </p>
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
+
+      <div className="border-t border-border" />
 
       {/* Clear Filters */}
       <button
