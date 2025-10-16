@@ -94,7 +94,7 @@ export default function ContactPage() {
 					<div>
 						<h2 className="font-semibold">Boutique</h2>
 						<p className="text-muted-foreground mt-3 text-sm">
-							Paris, France
+							Douala, Cameroun
 							<br />
 							Disponible en ligne
 						</p>

@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     // Send email using Resend
     const { data, error } = await resend.emails.send({
       from: "SCENTSATION Contact <onboarding@resend.dev>",
-      to: [`${process.env.CONTACT_EMAIL_ADDRESS!}`],
+      to: [`${process.env.MAILBOX!}`],
       subject: `Nouveau message de ${name}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
