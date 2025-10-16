@@ -66,10 +66,8 @@ export default function AccountClient() {
   };
 
   const handleLogout = async () => {
-    const response = await logout();
-    if (response.success) {
-      router.push('/login');
-    }
+    await logout();
+    // La fonction logout() redirige automatiquement vers /login
   };
 
   const formatDate = (dateString: string) => {

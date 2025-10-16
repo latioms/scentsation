@@ -34,11 +34,6 @@ export function filterProducts(
     );
   }
 
-  // Filtrer par rating
-  if (filters.rating) {
-    filtered = filtered.filter((p) => p.rating >= filters.rating!);
-  }
-
   return filtered;
 }
 
@@ -54,7 +49,8 @@ export function sortProducts(
     case 'price-desc':
       return sorted.sort((a, b) => b.prix - a.prix);
     case 'rating':
-      return sorted.sort((a, b) => b.rating - a.rating);
+      // Tri par likes au lieu de rating
+      return sorted.sort((a, b) => b.likes - a.likes);
     case 'name':
       return sorted.sort((a, b) => a.titre.localeCompare(b.titre));
     case 'newest':
