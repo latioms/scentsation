@@ -1,10 +1,48 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { Heart, User } from 'lucide-react';
+import { getLikedProducts } from '@/lib/likes';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [favoritesCount, setFavoritesCount] = useState(0);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    // Mettre à jour le compteur de favoris
+    const updateFavoritesCount = () => {
+      const likedProducts = getLikedProducts();
+      setFavoritesCount(likedProducts.length);
+    };
+
+    // Vérifier l'authentification
+    const checkAuth = async () => {
+      try {
+        const response = await fetch('/api/auth/check');
+        const data = await response.json();
+        setIsAuthenticated(data.authenticated);
+      } catch {
+        setIsAuthenticated(false);
+      }
+    };
+
+    // Mettre à jour au montage
+    updateFavoritesCount();
+    checkAuth();
+
+    // Écouter les changements de likes
+    const handleLikesChanged = () => {
+      updateFavoritesCount();
+    };
+
+    window.addEventListener('likesChanged', handleLikesChanged);
+
+    return () => {
+      window.removeEventListener('likesChanged', handleLikesChanged);
+    };
+  }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -14,7 +52,7 @@ export default function Navbar() {
     { name: 'Collections', href: '/collections' },
     { name: 'Products', href: '/products' },
     { name: 'Brand', href: '/brand' },
-    { name: 'Journal', href: '/journal' },
+    { name: 'Contact', href: '/contact' },
   ];
 
   return (
@@ -45,17 +83,32 @@ export default function Navbar() {
           <div className="flex items-center md:justify-end">
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-6 lg:justify-end">
-              <Link
-                href="/account"
-                className="text-foreground hover:text-muted-foreground transition-colors duration-200 text-sm"
-              >
-                Account
-              </Link>
+              {isAuthenticated ? (
+                <Link
+                  href="/account"
+                  className="text-foreground hover:text-muted-foreground transition-colors duration-200 text-sm flex items-center gap-1"
+                >
+                  Account
+                </Link>
+              ) : (
+                <Link
+                  href="/login"
+                  className="text-foreground hover:text-muted-foreground transition-colors duration-200 text-sm flex items-center gap-1"
+                >
+                  <User className="w-4 h-4" />
+                  Login
+                </Link>
+              )}
               <Link
                 href="/favorites"
-                className="text-foreground hover:text-muted-foreground transition-colors duration-200 text-sm"
+                className="text-foreground hover:text-muted-foreground transition-colors duration-200 text-sm flex items-center gap-1"
               >
                 Favorites
+                {favoritesCount > 0 && (
+                  <span className="ml-1 bg-primary text-primary-foreground text-xs font-semibold px-1.5 py-0.5 rounded-full">
+                    {favoritesCount}
+                  </span>
+                )}
               </Link>
               <Link
                 href="/search"
@@ -162,19 +215,36 @@ export default function Navbar() {
 
               {/* Secondary Navigation */}
               <div className="px-4 space-y-1">
-                <Link
-                  href="/account"
-                  onClick={toggleMenu}
-                  className="block px-4 py-3 text-base text-foreground hover:bg-accent rounded-md transition-colors duration-200"
-                >
-                  Account
-                </Link>
+                {isAuthenticated ? (
+                  <Link
+                    href="/account"
+                    onClick={toggleMenu}
+                    className="flex items-center gap-2 px-4 py-3 text-base text-foreground hover:bg-accent rounded-md transition-colors duration-200"
+                  >
+                    <User className="w-4 h-4" />
+                    Account
+                  </Link>
+                ) : (
+                  <Link
+                    href="/login"
+                    onClick={toggleMenu}
+                    className="flex items-center gap-2 px-4 py-3 text-base text-foreground hover:bg-accent rounded-md transition-colors duration-200"
+                  >
+                    <User className="w-4 h-4" />
+                    Login
+                  </Link>
+                )}
                 <Link
                   href="/favorites"
                   onClick={toggleMenu}
-                  className="block px-4 py-3 text-base text-foreground hover:bg-accent rounded-md transition-colors duration-200"
+                  className="flex items-center justify-between px-4 py-3 text-base text-foreground hover:bg-accent rounded-md transition-colors duration-200"
                 >
-                  Favorites
+                  <span>Favorites</span>
+                  {favoritesCount > 0 && (
+                    <span className="bg-primary text-primary-foreground text-xs font-semibold px-2 py-1 rounded-full">
+                      {favoritesCount}
+                    </span>
+                  )}
                 </Link>
                 <Link
                   href="/search"

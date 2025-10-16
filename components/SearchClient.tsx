@@ -88,11 +88,11 @@ export default function SearchClient() {
 				<div className="container mx-auto max-w-7xl px-4">
 					<div className="max-w-3xl mx-auto">
 						{/* Titre */}
-						<h1 className="text-4xl md:text-5xl font-bold text-center mb-4">
+						<h1 className="text-4xl md:text-5xl font-medium font-serif text-center mb-4">
 							Rechercher un parfum
 						</h1>
 						<p className="text-muted-foreground text-center mb-8">
-							Trouvez votre parfum parfait par marque ou nom
+							Trouvez votre parfum, par marque ou par nom
 						</p>
 
 						{/* Barre de Recherche */}

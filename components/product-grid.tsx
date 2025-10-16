@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Heart } from "lucide-react"
 import { useState } from "react"
-import type { Product } from "./products-client"
+import { Product } from "@/types/product"
 import Image from "next/image"
 
 type ProductGridProps = {
@@ -42,8 +42,8 @@ export function ProductGrid({ products }: ProductGridProps) {
           <CardContent className="p-0">
             <div className="relative aspect-square bg-secondary overflow-hidden">
               <Image
-                src={product.image || "/placeholder.svg"}
-                alt={product.name}
+                src={product.thumbnail || "/placeholder.svg"}
+                alt={product.titre}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-300"
               />
@@ -63,15 +63,15 @@ export function ProductGrid({ products }: ProductGridProps) {
             <div className="p-4 space-y-2">
               <div className="flex items-start justify-between gap-2">
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-medium text-sm leading-tight truncate">{product.name}</h3>
-                  <p className="text-xs text-muted-foreground uppercase tracking-wide mt-1">{product.brand}</p>
+                  <h3 className="font-medium text-sm leading-tight truncate">{product.titre}</h3>
+                  <p className="text-xs text-muted-foreground uppercase tracking-wide mt-1">{product.marque}</p>
                 </div>
-                <p className="font-medium text-sm whitespace-nowrap">{product.price}€</p>
+                <p className="font-medium text-sm whitespace-nowrap">{product.prix} XAF</p>
               </div>
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <span>{product.category}</span>
+                <span>{product.categorie}</span>
                 <span>•</span>
-                <span>{product.size}ml</span>
+                <span>{product.contenance}</span>
               </div>
             </div>
           </CardContent>

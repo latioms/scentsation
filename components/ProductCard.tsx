@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Product } from '@/types/product';
 import { Star } from 'lucide-react';
 import ProductImage from './ProductImage';
+import LikeButton from './LikeButton';
 
 interface ProductCardProps {
   product: Product;
@@ -29,9 +30,20 @@ export default function ProductCard({ product }: ProductCardProps) {
           )}
         </div>
 
+        {/* Bouton Like */}
+        <div className="absolute top-2 right-2 z-10">
+          <div className="bg-white/90 backdrop-blur-sm rounded-full flex p-2 shadow-md hover:bg-white transition-colors">
+            <LikeButton 
+              productId={product.id} 
+              iconClassName="w-4 h-4"
+              initialCount={product.likes}
+            />
+          </div>
+        </div>
+
         {/* Image */}
         <div className="aspect-square bg-muted relative overflow-hidden">
-                    <ProductImage src={product.thumbnail} alt={product.titre} />
+          <ProductImage src={product.thumbnail} alt={product.titre} />
         </div>
 
         {/* Content */}

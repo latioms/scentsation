@@ -3,9 +3,10 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { Product } from '@/types/product';
-import { Heart, Minus, Plus, ChevronDown } from 'lucide-react';
+import { Minus, Plus, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import LikeButton from '@/components/LikeButton';
 
 interface ProductDetailClientProps {
 	product: Product;
@@ -15,7 +16,6 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 	const [selectedImage, setSelectedImage] = useState(0);
 	const [quantity, setQuantity] = useState(1);
 	const [selectedSize, setSelectedSize] = useState(product.contenance);
-	const [isLiked, setIsLiked] = useState(false);
 	const [openSections, setOpenSections] = useState({
 		information: false,
 		benefits: false,
@@ -58,14 +58,13 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 								priority
 							/>
 							{/* Bouton like */}
-							<button
-								onClick={() => setIsLiked(!isLiked)}
-								className="absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-gray-50 transition-colors"
-							>
-								<Heart
-									className={`w-5 h-5 ${isLiked ? 'fill-red-500 text-red-500' : 'text-gray-600'}`}
+							<div className="absolute p-2 top-4 right-4  m-auto rounded-full text-center">
+								<LikeButton
+									productId={product.id}
+									iconClassName="w-5 h-5"
+									initialCount={product.likes}
 								/>
-							</button>
+							</div>
 						</div>
 
 						{/* Miniatures */}
@@ -96,14 +95,13 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 						<div>
 							<div className='flex justify-between'>
 								<h3 className='lg:p-2 rounded-xs lg:bg-muted text-sm text-muted-foreground'>{product.categorie}</h3>
-								<button
-									onClick={() => setIsLiked(!isLiked)}
-									className="p-1 hover:bg-accent rounded-full transition-colors"
-								>
-									<Heart
-										className={`w-5 h-5 ${isLiked ? 'fill-red-500 text-red-500' : 'text-gray-600'}`}
-									/>
-								</button>
+								<LikeButton
+									productId={product.id}
+									className="p-1 hover:bg-accent rounded-full"
+									iconClassName="w-5 h-5"
+									showCount={true}
+									initialCount={product.likes}
+								/>
 							</div>
 							<div className="flex items-center justify-between mt-4">
 								<h1 className="text-4xl font-semi-bold xl:font-serif text-foreground mb-2">{product.titre}</h1>

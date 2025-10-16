@@ -44,7 +44,7 @@ export default function CollectionsClient({ products, categories }: CollectionsC
               <button
                 key={category.value}
                 onClick={() => setSelectedCategory(category.value)}
-                className={`px-6 py-3 rounded-lg font-medium transition-all ${
+                className={`px-4 py-2 font-medium transition-all ${
                   selectedCategory === category.value
                     ? 'bg-primary text-primary-foreground shadow-md'
                     : 'bg-card text-foreground hover:bg-accent border'
