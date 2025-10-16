@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Cormorant_Garamond, Inter, Whisper } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
+import { Toaster } from "sonner"
 import "./globals.css"
 import Navbar from "@/components/layout/Navbar"
 
@@ -41,6 +42,7 @@ export default function RootLayout({
       <body className={`font-sans ${inter.variable} ${cormorant.variable} ${whisper.variable}`}>
         <Navbar />
         {children}
+        <Toaster position="top-center" richColors />
         <Analytics />
       </body>
     </html>
