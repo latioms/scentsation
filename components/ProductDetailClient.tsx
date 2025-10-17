@@ -48,7 +48,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 
 		const encodedMessage = encodeURIComponent(message);
 		const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-		
+
 		window.open(whatsappUrl, '_blank');
 	};
 
@@ -175,7 +175,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 							</div>
 
 							{/* Bouton Commander via WhatsApp */}
-							<Button 
+							<Button
 								onClick={handleWhatsAppOrder}
 								className="flex-1 py-5 text-sm font-medium rounded-none hover:bg-green-700"
 							>
