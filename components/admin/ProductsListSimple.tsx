@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Product } from '@/types/product';
 import { getAllProducts, deleteProduct } from '@/lib/products';
 import Image from 'next/image';
+import EditProductForm from './EditProductForm';
 
 // Définir une image placeholder pour les produits sans image
 const PLACEHOLDER_IMAGE = 'https://placehold.co/400x400?text=No+Image';
@@ -15,6 +16,7 @@ export default function ProductsListSimple() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deleteStatus, setDeleteStatus] = useState<{id: string, status: 'deleting' | 'success' | 'error'} | null>(null);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
   useEffect(() => {
     fetchProducts();
@@ -73,6 +75,31 @@ export default function ProductsListSimple() {
       }, 3000);
     }
   };
+
+  const handleEdit = (product: Product) => {
+    setEditingProduct(product);
+  };
+
+  const handleEditSuccess = () => {
+    setEditingProduct(null);
+    // Recharger la liste des produits
+    fetchProducts();
+  };
+
+  const handleEditCancel = () => {
+    setEditingProduct(null);
+  };
+
+  // Si on est en mode édition, afficher le formulaire d'édition
+  if (editingProduct) {
+    return (
+      <EditProductForm
+        product={editingProduct}
+        onSuccess={handleEditSuccess}
+        onCancel={handleEditCancel}
+      />
+    );
+  }
 
   if (loading) {
     return (
@@ -181,7 +208,12 @@ export default function ProductsListSimple() {
             </div>
 
             <div className="flex gap-2 pt-2">
-              <Button variant="outline" size="sm" className="flex-1">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="flex-1"
+                onClick={() => handleEdit(product)}
+              >
                 Modifier
               </Button>
               <Button 

@@ -5,6 +5,10 @@ import Hero from '@/components/landing/Hero';
 import { FeaturedProductsSimple } from '@/components/landing/FeaturedProductsSimple';
 import { Button } from '@/components/ui/button';
 
+// Désactiver le cache pour que les nouveaux produits apparaissent immédiatement
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: 'Scentsation - Parfumerie de Luxe au Cameroun | Fragrances Authentiques',
   description: 'Découvrez Scentsation, votre destination pour les parfums de luxe au Cameroun. Collection exclusive de fragrances authentiques pour homme, femme et mixte. Livraison rapide à Douala et Yaoundé.',

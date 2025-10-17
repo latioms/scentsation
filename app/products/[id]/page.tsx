@@ -3,6 +3,10 @@ import { notFound } from 'next/navigation';
 import ProductDetailClient from '@/components/ProductDetailClient';
 import { getProductById } from '@/lib/products';
 
+// Désactiver le cache pour que les mises à jour des produits apparaissent immédiatement
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 interface ProductPageProps {
   params: Promise<{
     id: string;

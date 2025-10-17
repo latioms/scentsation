@@ -5,10 +5,12 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Product } from '@/types/product';
 import { getAllProducts, deleteProduct } from '@/lib/products';
+import EditProductForm from './EditProductForm';
 
 export default function ProductsList() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
   useEffect(() => {
     fetchProducts();
@@ -38,6 +40,31 @@ export default function ProductsList() {
       console.error('Error deleting product:', error);
     }
   };
+
+  const handleEdit = (product: Product) => {
+    setEditingProduct(product);
+  };
+
+  const handleEditSuccess = () => {
+    setEditingProduct(null);
+    // Recharger la liste des produits
+    fetchProducts();
+  };
+
+  const handleEditCancel = () => {
+    setEditingProduct(null);
+  };
+
+  // Si on est en mode édition, afficher le formulaire d'édition
+  if (editingProduct) {
+    return (
+      <EditProductForm
+        product={editingProduct}
+        onSuccess={handleEditSuccess}
+        onCancel={handleEditCancel}
+      />
+    );
+  }
 
   if (loading) {
     return (
@@ -121,7 +148,12 @@ export default function ProductsList() {
             </div>
 
             <div className="flex gap-2 pt-2">
-              <Button variant="outline" size="sm" className="flex-1">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="flex-1"
+                onClick={() => handleEdit(product)}
+              >
                 Modifier
               </Button>
               <Button 

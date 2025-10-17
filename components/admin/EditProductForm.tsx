@@ -3,37 +3,38 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Product, Sexe, Categorie } from '@/types/product';
+import { Product, Sexe } from '@/types/product';
 import ImageUploader from './ImageUploader';
 import MultiImageUploader from './MultiImageUploader';
-import { createProduct } from '@/lib/products';
+import { updateProduct } from '@/lib/products';
 import { getAllCategories, type Category } from '@/lib/categories';
+import { X } from 'lucide-react';
 
-interface CreateProductFormProps {
+interface EditProductFormProps {
+  product: Product;
   onSuccess?: () => void;
+  onCancel?: () => void;
 }
 
-// Utilisera l'interface Category importée depuis '@/lib/categories'
-
-export default function CreateProductForm({ onSuccess }: CreateProductFormProps) {
+export default function EditProductForm({ product, onSuccess, onCancel }: EditProductFormProps) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
   
   const [formData, setFormData] = useState({
-    titre: '',
-    marque: '',
-    description: '',
-    sexe: 'Mixte' as Sexe,
-    contenance: '50',
-    prix: '',
-    categorie: '' as string, // Changé pour accepter n'importe quelle string
-    thumbnail: '',
-    images: [] as string[],
-    inStock: true,
-    isNew: false,
-    isBestSeller: false,
+    titre: product.titre || '',
+    marque: product.marque || '',
+    description: product.description || '',
+    sexe: product.sexe || 'Mixte' as Sexe,
+    contenance: product.contenance?.replace('ml', '') || '50',
+    prix: product.prix?.toString() || '',
+    categorie: product.categorie || '',
+    thumbnail: product.thumbnail || '',
+    images: product.images || [] as string[],
+    inStock: product.inStock ?? true,
+    isNew: product.isNew || false,
+    isBestSeller: product.isBestSeller || false,
   });
 
   // Charger les catégories au montage du composant
@@ -46,11 +47,6 @@ export default function CreateProductForm({ onSuccess }: CreateProductFormProps)
       setLoadingCategories(true);
       const cats = await getAllCategories();
       setCategories(cats);
-      
-      // Si aucune catégorie n'est sélectionnée, sélectionner la première
-      if (cats.length > 0 && !formData.categorie) {
-        setFormData(prev => ({ ...prev, categorie: cats[0].categoryname }));
-      }
     } catch (err) {
       console.error('Erreur chargement catégories:', err);
       setMessage({ type: 'error', text: 'Impossible de charger les catégories' });
@@ -79,8 +75,8 @@ export default function CreateProductForm({ onSuccess }: CreateProductFormProps)
         return;
       }
 
-      // Créer l'objet produit avec tous les attributs
-      const product = {
+      // Créer l'objet de mise à jour avec tous les attributs
+      const updatedData = {
         titre: formData.titre,
         marque: formData.marque,
         description: formData.description,
@@ -92,41 +88,25 @@ export default function CreateProductForm({ onSuccess }: CreateProductFormProps)
         categorie: formData.categorie,
         thumbnail: formData.thumbnail,
         images: formData.images,
-        likes: 0,
         inStock: formData.inStock,
         isNew: formData.isNew,
         isBestSeller: formData.isBestSeller,
       };
 
-      const result = await createProduct(product);
+      const result = await updateProduct(product.$id, updatedData);
 
       if (result) {
-        setMessage({ type: 'success', text: 'Produit créé avec succès!' });
-        // Réinitialiser le formulaire
-        setFormData({
-          titre: '',
-          marque: '',
-          description: '',
-          sexe: 'Mixte',
-          contenance: '50',
-          prix: '',
-          categorie: categories.length > 0 ? categories[0].categoryname : '',
-          thumbnail: '',
-          images: [],
-          inStock: true,
-          isNew: false,
-          isBestSeller: false,
-        });
+        setMessage({ type: 'success', text: 'Produit modifié avec succès!' });
         
         setTimeout(() => {
           onSuccess?.();
         }, 1500);
       } else {
-        setMessage({ type: 'error', text: 'Erreur lors de la création du produit' });
+        setMessage({ type: 'error', text: 'Erreur lors de la modification du produit' });
       }
     } catch (error) {
       console.error('Error:', error);
-      setMessage({ type: 'error', text: 'Erreur lors de la création du produit' });
+      setMessage({ type: 'error', text: 'Erreur lors de la modification du produit' });
     } finally {
       setLoading(false);
     }
@@ -134,6 +114,15 @@ export default function CreateProductForm({ onSuccess }: CreateProductFormProps)
 
   return (
     <Card className="p-4 sm:p-6 max-w-4xl">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold">Modifier le produit</h2>
+        {onCancel && (
+          <Button variant="ghost" size="sm" onClick={onCancel}>
+            <X className="w-5 h-5" />
+          </Button>
+        )}
+      </div>
+
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {/* Titre */}
@@ -342,11 +331,13 @@ export default function CreateProductForm({ onSuccess }: CreateProductFormProps)
 
         <div className="flex flex-col sm:flex-row gap-4">
           <Button type="submit" disabled={loading} className="flex-1">
-            {loading ? 'Création...' : 'Créer le produit'}
+            {loading ? 'Modification...' : 'Enregistrer les modifications'}
           </Button>
-          <Button type="button" variant="outline" onClick={() => onSuccess?.()}>
-            Annuler
-          </Button>
+          {onCancel && (
+            <Button type="button" variant="outline" onClick={onCancel}>
+              Annuler
+            </Button>
+          )}
         </div>
       </form>
     </Card>

@@ -2,6 +2,10 @@ import { Metadata } from 'next';
 import ProductsClient from '@/components/products-client';
 import { getAllProducts } from '@/lib/products';
 
+// Désactiver le cache pour cette page afin que les nouveaux produits apparaissent immédiatement
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: 'Nos Parfums | Scentsation - Fragrances de Luxe',
   description: 'Découvrez notre collection exclusive de parfums de luxe pour homme, femme et mixte. Des fragrances authentiques et élégantes pour tous les goûts.',
