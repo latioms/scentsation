@@ -169,15 +169,15 @@ export function FeaturedProductsSimple() {
                   </div>
 
                   {/* Product info */}
-                  <div className="p-4 flex items-center justify-between">
-                    <div>
+                  <div className="p-4 flex flex-col justify-between">
+                    <div className="flex justify-between">
                       <h3 className="font-light text-neutral-900 text-sm mb-1 line-clamp-1">
                         {product.titre}
                       </h3>
-                      <p className="text-xs text-neutral-500">{product.marque}</p>
+                      <p className="text-sm text-neutral-600">{product.prix} XAF</p>
                     </div>
-                    <p className="font-light text-neutral-900 text-sm">
-                      {formatPrice(product.prix)}
+                    <p className="font-light text-neutral-500 text-sm">
+                      {(product.marque)}
                     </p>
                   </div>
                 </div>
