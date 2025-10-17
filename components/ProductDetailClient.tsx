@@ -44,14 +44,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 
 	const handleWhatsAppOrder = () => {
 		const phoneNumber = '237655863245'; // Numéro de la vendeuse
-		const message = `Bonjour, je souhaite commander :\n\n` +
-			`📦 Produit: ${product.titre}\n` +
-			`🏷️ Marque: ${product.marque}\n` +
-			`💰 Prix: ${formatPrice(product.prix)}\n` +
-			`📏 Taille: ${selectedSize}ml\n` +
-			`🔢 Quantité: ${quantity}\n` +
-			`💵 Total: ${formatPrice(product.prix * quantity)}\n\n` +
-			`Merci de confirmer la disponibilité.`;
+		const message = `Bonjour, je veux ${quantity} ${quantity > 1 ? 'exemplaires' : 'exemplaire'} de ${product.titre} (${product.marque}).\n\nMerci de confirmer la disponibilité.`;
 
 		const encodedMessage = encodeURIComponent(message);
 		const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
