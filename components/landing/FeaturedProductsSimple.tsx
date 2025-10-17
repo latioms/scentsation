@@ -169,7 +169,7 @@ export function FeaturedProductsSimple() {
                   </div>
 
                   {/* Product info */}
-                  <div className="p-4 flex flex-col justify-between">
+                  <div className="p-4">
                     <div className="flex justify-between">
                       <h3 className="font-light text-neutral-900 text-sm mb-1 line-clamp-1">
                         {product.titre}
