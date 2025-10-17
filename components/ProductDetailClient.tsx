@@ -144,7 +144,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 											: 'border-input bg-background hover:border-foreground'
 											}`}
 									>
-										{size}ml
+										{size}
 									</button>
 								))}
 							</div>

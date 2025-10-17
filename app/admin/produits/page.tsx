@@ -2,6 +2,9 @@ import { isAdmin } from '@/lib/adminAuth';
 import { redirect } from 'next/navigation';
 import ProductsListSimple from '@/components/admin/ProductsListSimple';
 
+// Forcer le rendu dynamique car cette page utilise des cookies pour l'authentification
+export const dynamic = 'force-dynamic';
+
 export default async function ProduitsPage() {
   const admin = await isAdmin();
   
