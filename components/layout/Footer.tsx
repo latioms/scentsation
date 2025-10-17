@@ -13,7 +13,7 @@ export function Footer() {
         <div className="py-12 md:py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {/* Brand & Description */}
           <div className="space-y-4">
-            <h3 className="font-serif text-2xl font-medium text-neutral-900">SCENTSATION</h3>
+            <h3 className="font-serif text-2xl font-medium text-neutral-900">SCENTSATION <span className="text-sm font-normal">by KK</span></h3>
             <p className="text-sm text-neutral-700 leading-relaxed max-w-sm">
               Votre destination pour les parfums de luxe. Découvrez notre sélection exclusive de fragrances des plus
               grandes marques.

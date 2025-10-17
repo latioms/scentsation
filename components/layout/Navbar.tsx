@@ -75,7 +75,7 @@ export default function Navbar() {
           {/* Logo - Center Desktop / Left Mobile */}
           <Link href="/" className="flex items-center md:justify-center">
             <span className="text-2xl font-serif text-foreground whitespace-nowrap">
-              Scent<span className="italic">Sation</span><sup className="text-xs">™</sup>
+              Scent<span className="italic">Sation</span><sup className="text-xs">by KK</sup>
             </span>
           </Link>
 
@@ -167,7 +167,7 @@ export default function Navbar() {
             {/* Drawer Header */}
             <div className="flex justify-between items-center p-4 border-b">
               <span className="text-xl font-serif text-foreground">
-                Scent<span className="italic">Sation</span><sup className="text-xs">™</sup>
+                Scent<span className="italic">Sation</span><sup className="text-xs">by KK</sup>
               </span>
               <button
                 onClick={toggleMenu}
