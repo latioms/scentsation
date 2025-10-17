@@ -1,10 +1,9 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import ProductCard from '@/components/ProductCard';
-import { getAllProducts } from '@/lib/products';
-import { ArrowRight } from 'lucide-react';
 import { FeaturedLogos } from '@/components/landing/BrandLogos';
 import Hero from '@/components/landing/Hero';
+import { FeaturedProducts } from '@/components/landing/FeaturedProducts';
+import { Button } from '@/components/ui/button';
 
 export const metadata: Metadata = {
   title: 'Scentsation - Parfumerie de Luxe au Cameroun | Fragrances Authentiques',
@@ -13,7 +12,7 @@ export const metadata: Metadata = {
   authors: [{ name: 'Scentsation' }],
   creator: 'Scentsation',
   publisher: 'Scentsation',
-  
+
   openGraph: {
     title: 'Scentsation - Parfumerie de Luxe au Cameroun',
     description: 'Découvrez notre collection exclusive de parfums de luxe. Fragrances authentiques pour tous les goûts.',
@@ -62,9 +61,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const products = await getAllProducts();
-  const featuredProducts = products.filter((p) => p.isBestSeller || p.isNew).slice(0, 4);
-
   // Données structurées pour l'organisation
   const organizationJsonLd = {
     '@context': 'https://schema.org',
@@ -119,9 +115,24 @@ export default async function Home() {
       <FeaturedLogos />
 
       {/* Featured Products Section */}
-
+      <FeaturedProducts />
 
       {/* USP Section */}
+      <section className="py-16 md:py-24 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="font-serif text-3xl md:text-4xl font-light mb-6">Une Expérience Olfactive Unique</h2>
+            <p className="text-muted-foreground leading-relaxed mb-8">
+              Chaque fragrance de notre collection est soigneusement sélectionnée pour offrir une expérience sensorielle
+              exceptionnelle. Des notes florales délicates aux accords boisés profonds, trouvez le parfum qui vous
+              ressemble.
+            </p>
+            <Button asChild variant="outline" size="lg">
+              <Link href="/products">Voir Tous les Produits</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

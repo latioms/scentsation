@@ -14,8 +14,8 @@ export default function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <Link href={`/products/${product.id}`}>
-      <div className="group relative bg-card rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 border">
+    <Link href={`/products/${product.$id}`}>
+      <div className="group relative bg-card rounded-xs overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 border">
         {/* Badges */}
         <div className="absolute top-2 left-2 z-10 flex flex-col gap-2">
           {product.isNew && (
@@ -34,7 +34,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div className="absolute top-2 right-2 z-10">
           <div className="bg-white/90 backdrop-blur-sm rounded-full flex p-2 shadow-md hover:bg-white transition-colors">
             <LikeButton 
-              productId={product.id} 
+              productId={product.$id} 
               iconClassName="w-4 h-4"
               initialCount={product.likes}
             />

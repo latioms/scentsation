@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { Toaster } from "sonner"
 import "./globals.css"
 import Navbar from "@/components/layout/Navbar"
+import { Footer } from "@/components/layout/Footer"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -105,6 +106,7 @@ export default function RootLayout({
       <body className={`font-sans ${inter.variable} ${cormorant.variable} ${whisper.variable}`}>
         <Navbar />
         {children}
+        <Footer />
         <Toaster position="top-center" richColors />
         <Analytics />
       </body>

@@ -116,12 +116,6 @@ export default function Navbar() {
               >
                 Search
               </Link>
-              <Link
-                href="/cart"
-                className="text-foreground hover:text-muted-foreground transition-colors duration-200 text-sm"
-              >
-                Bag (0)
-              </Link>
             </div>
 
             {/* Mobile Burger Button */}
@@ -252,13 +246,6 @@ export default function Navbar() {
                   className="block px-4 py-3 text-base text-foreground hover:bg-accent rounded-md transition-colors duration-200"
                 >
                   Search
-                </Link>
-                <Link
-                  href="/cart"
-                  onClick={toggleMenu}
-                  className="block px-4 py-3 text-base text-foreground hover:bg-accent rounded-md transition-colors duration-200"
-                >
-                  Bag (0)
                 </Link>
               </div>
             </div>

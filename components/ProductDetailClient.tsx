@@ -42,6 +42,23 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 		return new Intl.NumberFormat('fr-FR').format(price) + ' XAF';
 	};
 
+	const handleWhatsAppOrder = () => {
+		const phoneNumber = '237655863245'; // Numéro de la vendeuse
+		const message = `Bonjour, je souhaite commander :\n\n` +
+			`📦 Produit: ${product.titre}\n` +
+			`🏷️ Marque: ${product.marque}\n` +
+			`💰 Prix: ${formatPrice(product.prix)}\n` +
+			`📏 Taille: ${selectedSize}ml\n` +
+			`🔢 Quantité: ${quantity}\n` +
+			`💵 Total: ${formatPrice(product.prix * quantity)}\n\n` +
+			`Merci de confirmer la disponibilité.`;
+
+		const encodedMessage = encodeURIComponent(message);
+		const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+		
+		window.open(whatsappUrl, '_blank');
+	};
+
 	return (
 		<div className="min-h-screen bg-background">
 			<div className="container mx-auto px-4 py-8 lg:mt-16 max-w-6xl">
@@ -60,7 +77,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 							{/* Bouton like */}
 							<div className="absolute p-2 top-4 right-4  m-auto rounded-full text-center">
 								<LikeButton
-									productId={product.id}
+									productId={product.$id}
 									iconClassName="w-5 h-5"
 									initialCount={product.likes}
 								/>
@@ -96,7 +113,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 							<div className='flex justify-between'>
 								<h3 className='lg:p-2 rounded-xs lg:bg-muted text-sm text-muted-foreground'>{product.categorie}</h3>
 								<LikeButton
-									productId={product.id}
+									productId={product.$id}
 									className="p-1 hover:bg-accent rounded-full"
 									iconClassName="w-5 h-5"
 									showCount={true}
@@ -164,9 +181,12 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 								</button>
 							</div>
 
-							{/* Bouton Ajouter au panier */}
-							<Button className="flex-1 py-5 text-sm font-medium">
-								Add to cart
+							{/* Bouton Commander via WhatsApp */}
+							<Button 
+								onClick={handleWhatsAppOrder}
+								className="flex-1 py-5 text-sm font-medium rounded-none hover:bg-green-700"
+							>
+								Commander
 							</Button>
 						</div>
 

@@ -7,7 +7,7 @@ import { Twitter } from "lucide-react"
 
 export function Footer() {
   return (
-    <footer className="bg-amber-300/75 border-t  border-neutral-200/50">
+    <footer className="bg-[#c9a882] border-t  border-neutral-200/50">
       <div className="container mx-auto max-w-7xl px-4 lg:px-8">
         {/* Main Footer Content */}
         <div className="py-12 md:py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
@@ -46,10 +46,10 @@ export function Footer() {
               <Input
                 type="email"
                 placeholder="Votre email"
-                className="bg-white/50 border-neutral-300 focus:border-neutral-900 text-sm"
+                className="bg-white/50 border-neutral-300 focus:border-neutral-900 rounded-xs text-sm"
                 required
               />
-              <Button type="submit" className="bg-neutral-900 hover:bg-neutral-800 text-white flex-shrink-0">
+              <Button type="submit" className="bg-neutral-900 hover:bg-neutral-800 text-white flex-shrink-0 rounded-xs">
                 S'inscrire
               </Button>
             </form>

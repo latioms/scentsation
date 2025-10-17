@@ -4,7 +4,7 @@ export type Sexe = 'Homme' | 'Femme' | 'Mixte';
 export type Categorie = string;
 
 export interface Product {
-  id: string;
+	$id: string;
   titre: string;
   marque: string;
   description: string;
