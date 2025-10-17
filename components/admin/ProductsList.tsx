@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Product } from '@/types/product';
+import { getAllProducts, deleteProduct } from '@/lib/products';
 
 export default function ProductsList() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -15,11 +16,8 @@ export default function ProductsList() {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('/api/admin/products');
-      if (response.ok) {
-        const data = await response.json();
-        setProducts(data);
-      }
+      const data = await getAllProducts();
+      setProducts(data);
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {
@@ -31,11 +29,9 @@ export default function ProductsList() {
     if (!confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) return;
 
     try {
-      const response = await fetch(`/api/admin/products/${id}`, {
-        method: 'DELETE',
-      });
+      const success = await deleteProduct(id);
 
-      if (response.ok) {
+      if (success) {
         setProducts(products.filter(p => p.$id !== id));
       }
     } catch (error) {

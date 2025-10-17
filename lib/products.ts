@@ -88,3 +88,70 @@ export function getPriceRange(products: Product[]): { min: number; max: number }
     max: Math.max(...prices),
   };
 }
+
+// Fonction pour supprimer un produit
+export async function deleteProduct(id: string): Promise<boolean> {
+  try {
+    await databases.deleteDocument(
+      DATABASE_ID,
+      PRODUCTS_COLLECTION_ID,
+      id
+    );
+    return true;
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    return false;
+  }
+}
+
+// Fonction pour créer un produit
+export async function createProduct(productData: Omit<Product, '$id'>): Promise<Product | null> {
+  try {
+    const response = await databases.createDocument(
+      DATABASE_ID,
+      PRODUCTS_COLLECTION_ID,
+      'unique()',
+      productData
+    );
+    
+    return {
+      $id: response.$id,
+      ...productData
+    } as Product;
+  } catch (error) {
+    console.error('Error creating product:', error);
+    return null;
+  }
+}
+
+// Fonction pour mettre à jour un produit
+export async function updateProduct(id: string, productData: Partial<Product>): Promise<Product | null> {
+  try {
+    const response = await databases.updateDocument(
+      DATABASE_ID,
+      PRODUCTS_COLLECTION_ID,
+      id,
+      productData
+    );
+    
+    return {
+      $id: response.$id,
+      titre: response.titre,
+      marque: response.marque,
+      description: response.description,
+      sexe: response.sexe,
+      contenance: response.contenance,
+      prix: response.prix,
+      categorie: response.categorie,
+      thumbnail: response.thumbnail,
+      images: response.images || [],
+      likes: response.likes || 0,
+      inStock: response.inStock,
+      isNew: response.isNew || false,
+      isBestSeller: response.isBestSeller || false,
+    } as Product;
+  } catch (error) {
+    console.error('Error updating product:', error);
+    return null;
+  }
+}

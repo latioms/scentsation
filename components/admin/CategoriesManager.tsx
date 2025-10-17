@@ -1,17 +1,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { databases } from '@/lib/appwrite';
-import { Query } from 'appwrite';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Plus, Trash2, Edit2, X, Check } from 'lucide-react';
-
-interface Category {
-  $id: string;
-  categoryname: string;
-  $createdAt: string;
-}
+import { 
+  getAllCategories, 
+  createCategory, 
+  updateCategory, 
+  deleteCategory,
+  type Category 
+} from '@/lib/categories';
 
 export default function CategoriesManager() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -34,12 +33,8 @@ export default function CategoriesManager() {
   const loadCategories = async () => {
     try {
       setLoading(true);
-      const response = await databases.listDocuments(
-        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
-        'categories',
-        [Query.orderDesc('$createdAt')]
-      );
-      setCategories(response.documents as unknown as Category[]);
+      const data = await getAllCategories();
+      setCategories(data);
       setError('');
     } catch (err) {
       console.error('Erreur chargement catégories:', err);
@@ -60,19 +55,18 @@ export default function CategoriesManager() {
       setSubmitting(true);
       setError('');
       
-      await databases.createDocument(
-        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
-        'categories',
-        'unique()',
-        { categoryname: newCategoryName.trim() }
-      );
-
-      setSuccess('Catégorie ajoutée avec succès !');
-      setNewCategoryName('');
-      setIsAdding(false);
-      await loadCategories();
+      const result = await createCategory(newCategoryName);
       
-      setTimeout(() => setSuccess(''), 3000);
+      if (result) {
+        setSuccess('Catégorie ajoutée avec succès !');
+        setNewCategoryName('');
+        setIsAdding(false);
+        await loadCategories();
+        
+        setTimeout(() => setSuccess(''), 3000);
+      } else {
+        setError('Erreur lors de l\'ajout de la catégorie');
+      }
     } catch (err) {
       console.error('Erreur ajout:', err);
       setError('Erreur lors de l\'ajout de la catégorie');
@@ -92,19 +86,18 @@ export default function CategoriesManager() {
       setSubmitting(true);
       setError('');
 
-      await databases.updateDocument(
-        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
-        'categories',
-        id,
-        { categoryname: editingName.trim() }
-      );
-
-      setSuccess('Catégorie modifiée avec succès !');
-      setEditingId(null);
-      setEditingName('');
-      await loadCategories();
+      const result = await updateCategory(id, editingName);
       
-      setTimeout(() => setSuccess(''), 3000);
+      if (result) {
+        setSuccess('Catégorie modifiée avec succès !');
+        setEditingId(null);
+        setEditingName('');
+        await loadCategories();
+        
+        setTimeout(() => setSuccess(''), 3000);
+      } else {
+        setError('Erreur lors de la modification');
+      }
     } catch (err) {
       console.error('Erreur modification:', err);
       setError('Erreur lors de la modification');
@@ -123,16 +116,16 @@ export default function CategoriesManager() {
       setSubmitting(true);
       setError('');
 
-      await databases.deleteDocument(
-        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
-        'categories',
-        id
-      );
-
-      setSuccess('Catégorie supprimée avec succès !');
-      await loadCategories();
+      const result = await deleteCategory(id);
       
-      setTimeout(() => setSuccess(''), 3000);
+      if (result) {
+        setSuccess('Catégorie supprimée avec succès !');
+        await loadCategories();
+        
+        setTimeout(() => setSuccess(''), 3000);
+      } else {
+        setError('Erreur lors de la suppression. Vérifiez qu\'aucun produit n\'utilise cette catégorie.');
+      }
     } catch (err) {
       console.error('Erreur suppression:', err);
       setError('Erreur lors de la suppression. Vérifiez qu\'aucun produit n\'utilise cette catégorie.');

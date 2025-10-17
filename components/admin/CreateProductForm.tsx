@@ -6,17 +6,14 @@ import { Card } from '@/components/ui/card';
 import { Product, Sexe, Categorie } from '@/types/product';
 import ImageUploader from './ImageUploader';
 import MultiImageUploader from './MultiImageUploader';
-import { databases } from '@/lib/appwrite';
-import { Query } from 'appwrite';
+import { createProduct } from '@/lib/products';
+import { getAllCategories, type Category } from '@/lib/categories';
 
 interface CreateProductFormProps {
   onSuccess?: () => void;
 }
 
-interface Category {
-  $id: string;
-  categoryname: string;
-}
+// Utilisera l'interface Category importée depuis '@/lib/categories'
 
 export default function CreateProductForm({ onSuccess }: CreateProductFormProps) {
   const [loading, setLoading] = useState(false);
@@ -47,12 +44,7 @@ export default function CreateProductForm({ onSuccess }: CreateProductFormProps)
   const loadCategories = async () => {
     try {
       setLoadingCategories(true);
-      const response = await databases.listDocuments(
-        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
-        'categories',
-        [Query.orderAsc('categoryname')] // Ordre alphabétique
-      );
-      const cats = response.documents as unknown as Category[];
+      const cats = await getAllCategories();
       setCategories(cats);
       
       // Si aucune catégorie n'est sélectionnée, sélectionner la première
@@ -104,13 +96,9 @@ export default function CreateProductForm({ onSuccess }: CreateProductFormProps)
         isBestSeller: formData.isBestSeller,
       };
 
-      const response = await fetch('/api/admin/products', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(product),
-      });
+      const result = await createProduct(product);
 
-      if (response.ok) {
+      if (result) {
         setMessage({ type: 'success', text: 'Produit créé avec succès!' });
         // Réinitialiser le formulaire
         setFormData({
