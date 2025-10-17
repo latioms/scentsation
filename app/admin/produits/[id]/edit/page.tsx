@@ -3,14 +3,15 @@ import { redirect } from 'next/navigation';
 import { getProductById } from '@/lib/products';
 import EditProductClient from '@/components/admin/EditProductClient';
 
-export default async function EditProductPage({ params }: { params: { id: string } }) {
+export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
   const admin = await isAdmin();
   
   if (!admin) {
     redirect('/admin/login');
   }
 
-  const product = await getProductById(params.id);
+  const { id } = await params;
+  const product = await getProductById(id);
 
   if (!product) {
     redirect('/admin/produits');
