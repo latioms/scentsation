@@ -1,0 +1,8 @@
+<!-- placeholder-product.svg -->
+<svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="400" fill="#f5f5f5"/>
+  <path d="M200 150C211.046 150 220 141.046 220 130C220 118.954 211.046 110 200 110C188.954 110 180 118.954 180 130C180 141.046 188.954 150 200 150Z" fill="#d4d4d4"/>
+  <path d="M260 200H140C135.582 200 132 203.582 132 208V258C132 262.418 135.582 266 140 266H260C264.418 266 268 262.418 268 258V208C268 203.582 264.418 200 260 200Z" fill="#d4d4d4"/>
+  <path d="M240 185L210 155L190 175L170 155L140 185" stroke="#a3a3a3" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="200" y="300" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" fill="#a3a3a3">Image non disponible</text>
+</svg>

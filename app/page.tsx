@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { FeaturedLogos } from '@/components/landing/BrandLogos';
 import Hero from '@/components/landing/Hero';
-import { FeaturedProducts } from '@/components/landing/FeaturedProducts';
+import { FeaturedProductsSimple } from '@/components/landing/FeaturedProductsSimple';
 import { Button } from '@/components/ui/button';
 
 export const metadata: Metadata = {
@@ -115,7 +115,7 @@ export default async function Home() {
       <FeaturedLogos />
 
       {/* Featured Products Section */}
-      <FeaturedProducts />
+      <FeaturedProductsSimple />
 
       {/* USP Section */}
       <section className="py-16 md:py-24 bg-muted/30">

@@ -8,11 +8,28 @@ const PRODUCTS_COLLECTION_ID = process.env.NEXT_PUBLIC_APPWRITE_PRODUCTS_COLLECT
 // Fonction pour récupérer tous les produits depuis Appwrite
 export async function getAllProducts(): Promise<Product[]> {
   try {
+    if (!DATABASE_ID) {
+      console.error('NEXT_PUBLIC_APPWRITE_DATABASE_ID is not defined');
+      return [];
+    }
+    
+    if (!PRODUCTS_COLLECTION_ID) {
+      console.error('NEXT_PUBLIC_APPWRITE_PRODUCTS_COLLECTION_ID is not defined');
+      return [];
+    }
+    
+    console.log('Fetching products with:', { DATABASE_ID, PRODUCTS_COLLECTION_ID });
+    
     const response = await databases.listDocuments(
       DATABASE_ID,
       PRODUCTS_COLLECTION_ID,
       [Query.orderDesc('$createdAt'), Query.limit(100)]
     );
+    
+    if (!response || !response.documents) {
+      console.error('Invalid response from Appwrite:', response);
+      return [];
+    }
     
     return response.documents.map(doc => ({
       $id: doc.$id,
@@ -32,6 +49,7 @@ export async function getAllProducts(): Promise<Product[]> {
     })) as Product[];
   } catch (error) {
     console.error('Error fetching products:', error);
+    console.error('Error details:', JSON.stringify(error, null, 2));
     return [];
   }
 }

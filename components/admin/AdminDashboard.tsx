@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import CreateProductForm from './CreateProductForm';
-import CategoriesManager from './CategoriesManager';
-import ProductsList from './ProductsList';
+import CategoriesManagerSimple from './CategoriesManagerSimple';
+import ProductsListSimple from './ProductsListSimple';
 import { useRouter } from 'next/navigation';
 
 type View = 'overview' | 'create-product' | 'create-category' | 'products';
@@ -135,7 +135,7 @@ export default function AdminDashboard() {
               </Button>
               <h2 className="text-3xl font-bold">Gérer les catégories</h2>
             </div>
-            <CategoriesManager />
+            <CategoriesManagerSimple />
           </div>
         )}
 
@@ -152,7 +152,7 @@ export default function AdminDashboard() {
                 + Nouveau produit
               </Button>
             </div>
-            <ProductsList />
+            <ProductsListSimple />
           </div>
         )}
       </main>

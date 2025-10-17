@@ -2,7 +2,8 @@ import { databases } from './appwrite';
 import { Query } from 'appwrite';
 
 const DATABASE_ID = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!;
-const CATEGORIES_COLLECTION_ID = 'categories'; // ID de la collection des catégories
+// Utiliser une variable d'environnement ou fallback vers 'categories'
+const CATEGORIES_COLLECTION_ID = process.env.NEXT_PUBLIC_APPWRITE_CATEGORIES_COLLECTION_ID || 'categories';
 
 export interface Category {
   $id: string;
@@ -13,11 +14,26 @@ export interface Category {
 // Fonction pour récupérer toutes les catégories
 export async function getAllCategories(): Promise<Category[]> {
   try {
+    if (!DATABASE_ID) {
+      console.error('NEXT_PUBLIC_APPWRITE_DATABASE_ID is not defined');
+      return [];
+    }
+    
+    if (!CATEGORIES_COLLECTION_ID) {
+      console.error('CATEGORIES_COLLECTION_ID is not defined');
+      return [];
+    }
+    
     const response = await databases.listDocuments(
       DATABASE_ID,
       CATEGORIES_COLLECTION_ID,
       [Query.orderAsc('categoryname')] // Tri par ordre alphabétique
     );
+    
+    if (!response || !response.documents) {
+      console.error('Invalid response from Appwrite:', response);
+      return [];
+    }
     
     return response.documents as unknown as Category[];
   } catch (error) {

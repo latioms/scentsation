@@ -15,29 +15,48 @@ export function FeaturedProducts() {
 	useEffect(() => {
 		async function fetchProducts() {
 			try {
-				const data = await getAllProducts()
+				console.log('FeaturedProducts: Fetching products...');
+				const data = await getAllProducts();
+				console.log('FeaturedProducts: Got products:', data.length);
+				
+				if (!data || data.length === 0) {
+					console.log('FeaturedProducts: No products found');
+					setFeaturedProducts([]);
+					setLoading(false);
+					return;
+				}
+				
 				// Récupérer les 5 produits les plus récents
 				const recent = data
-					.filter((p: Product) => p.isNew || p.isBestSeller)
-					.slice(0, 5)
+					.filter((p: Product) => p && (p.isNew || p.isBestSeller))
+					.slice(0, 5);
+				
+				console.log('FeaturedProducts: Featured products found:', recent.length);
 
 				// Si on n'a pas assez de produits "new", compléter avec les autres
 				if (recent.length < 5) {
 					const remaining = data
-						.filter((p: Product) => !recent.find((r: Product) => r.$id === p.$id))
-						.slice(0, 5 - recent.length)
-					setFeaturedProducts([...recent, ...remaining])
+						.filter((p: Product) => p && !recent.find((r: Product) => r.$id === p.$id))
+						.slice(0, 5 - recent.length);
+					console.log('FeaturedProducts: Adding remaining products:', remaining.length);
+					setFeaturedProducts([...recent, ...remaining]);
 				} else {
-					setFeaturedProducts(recent)
+					setFeaturedProducts(recent);
 				}
 			} catch (error) {
-				console.error('Erreur lors du chargement des produits:', error)
+				console.error('Erreur lors du chargement des produits:', error);
+				// Afficher plus de détails sur l'erreur
+				if (error instanceof Error) {
+					console.error('Error details:', error.message, error.stack);
+				} else {
+					console.error('Unknown error type:', error);
+				}
 			} finally {
-				setLoading(false)
+				setLoading(false);
 			}
 		}
 
-		fetchProducts()
+		fetchProducts();
 	}, [])
 
 	const formatPrice = (price: number) => {

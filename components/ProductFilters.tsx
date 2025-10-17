@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-import { FilterOptions, Categorie, Sexe } from '@/types/product';
+import { useState, useEffect } from 'react';
+import { FilterOptions, Sexe } from '@/types/product';
 import { X, SlidersHorizontal, ChevronDown } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { getAllCategories, type Category } from '@/lib/categories';
 
 interface ProductFiltersProps {
   filters: FilterOptions;
@@ -29,15 +30,35 @@ export default function ProductFilters({
     contenances: true,
     prix: true,
   });
-
-  const categories: Categorie[] = ['Parfums', 'Huiles de Parfum', 'Déodorants'];
+  
+  const [categories, setCategories] = useState<string[]>([]);
+  const [loadingCategories, setLoadingCategories] = useState(true);
+  
+  // Charger les catégories depuis la base de données
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const fetchedCategories = await getAllCategories();
+        // Extraire uniquement les noms des catégories
+        const categoryNames = fetchedCategories.map(cat => cat.categoryname);
+        setCategories(categoryNames);
+      } catch (error) {
+        console.error('Erreur lors du chargement des catégories:', error);
+      } finally {
+        setLoadingCategories(false);
+      }
+    }
+    
+    fetchCategories();
+  }, []);
+  
   const sexes: Sexe[] = ['Homme', 'Femme', 'Mixte'];
 
   const toggleSection = (section: keyof typeof openSections) => {
     setOpenSections((prev) => ({ ...prev, [section]: !prev[section] }))
   };
 
-  const handleCategoryToggle = (category: Categorie) => {
+  const handleCategoryToggle = (category: string) => {
     const current = filters.categories || [];
     const updated = current.includes(category)
       ? current.filter((c) => c !== category)
@@ -96,17 +117,23 @@ export default function ProductFilters({
         </CollapsibleTrigger>
         <CollapsibleContent className="pt-3">
           <div className="space-y-2">
-            {categories.map((category) => (
-              <label key={category} className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={filters.categories?.includes(category) || false}
-                  onChange={() => handleCategoryToggle(category)}
-                  className="rounded border-input text-primary focus:ring-ring"
-                />
-                <span className="text-sm text-foreground">{category}</span>
-              </label>
-            ))}
+            {loadingCategories ? (
+              <div className="text-sm text-muted-foreground">Chargement des catégories...</div>
+            ) : categories.length === 0 ? (
+              <div className="text-sm text-muted-foreground">Aucune catégorie disponible</div>
+            ) : (
+              categories.map((category) => (
+                <label key={category} className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={filters.categories?.includes(category) || false}
+                    onChange={() => handleCategoryToggle(category)}
+                    className="rounded border-input text-primary focus:ring-ring"
+                  />
+                  <span className="text-sm text-foreground">{category}</span>
+                </label>
+              ))
+            )}
           </div>
         </CollapsibleContent>
       </Collapsible>

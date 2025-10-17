@@ -6,6 +6,7 @@ import { Toaster } from "sonner"
 import "./globals.css"
 import Navbar from "@/components/layout/Navbar"
 import { Footer } from "@/components/layout/Footer"
+import AppwriteProvider from "@/components/AppwriteProvider"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -104,11 +105,13 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={`font-sans ${inter.variable} ${cormorant.variable} ${whisper.variable}`}>
-        <Navbar />
-        {children}
-        <Footer />
-        <Toaster position="top-center" richColors />
-        <Analytics />
+        <AppwriteProvider>
+          <Navbar />
+          {children}
+          <Footer />
+          <Toaster position="top-center" richColors />
+          <Analytics />
+        </AppwriteProvider>
       </body>
     </html>
   )
