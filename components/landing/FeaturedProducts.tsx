@@ -6,6 +6,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Product } from "@/types/product"
 import LikeButton from "@/components/LikeButton"
+import { getAllProducts } from "@/lib/products"
 
 export function FeaturedProducts() {
 	const [featuredProducts, setFeaturedProducts] = useState<Product[]>([])
@@ -14,23 +15,20 @@ export function FeaturedProducts() {
 	useEffect(() => {
 		async function fetchProducts() {
 			try {
-				const response = await fetch('/api/admin/products')
-				if (response.ok) {
-					const data = await response.json()
-					// Récupérer les 5 produits les plus récents
-					const recent = data
-						.filter((p: Product) => p.isNew || p.isBestSeller)
-						.slice(0, 5)
+				const data = await getAllProducts()
+				// Récupérer les 5 produits les plus récents
+				const recent = data
+					.filter((p: Product) => p.isNew || p.isBestSeller)
+					.slice(0, 5)
 
-					// Si on n'a pas assez de produits "new", compléter avec les autres
-					if (recent.length < 5) {
-						const remaining = data
-							.filter((p: Product) => !recent.find((r: Product) => r.$id === p.$id))
-							.slice(0, 5 - recent.length)
-						setFeaturedProducts([...recent, ...remaining])
-					} else {
-						setFeaturedProducts(recent)
-					}
+				// Si on n'a pas assez de produits "new", compléter avec les autres
+				if (recent.length < 5) {
+					const remaining = data
+						.filter((p: Product) => !recent.find((r: Product) => r.$id === p.$id))
+						.slice(0, 5 - recent.length)
+					setFeaturedProducts([...recent, ...remaining])
+				} else {
+					setFeaturedProducts(recent)
 				}
 			} catch (error) {
 				console.error('Erreur lors du chargement des produits:', error)
