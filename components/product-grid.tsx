@@ -38,7 +38,7 @@ export function ProductGrid({ products }: ProductGridProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {products.map((product) => (
-        <Card key={product.id} className="group overflow-hidden border-border hover:shadow-lg transition-shadow">
+        <Card key={product.$id} className="group overflow-hidden border-border hover:shadow-lg transition-shadow">
           <CardContent className="p-0">
             <div className="relative aspect-square bg-secondary overflow-hidden">
               <Image
@@ -51,11 +51,11 @@ export function ProductGrid({ products }: ProductGridProps) {
                 variant="ghost"
                 size="icon"
                 className="absolute top-3 right-3 bg-card/80 backdrop-blur-sm hover:bg-card"
-                onClick={() => toggleFavorite(product.id)}
+                onClick={() => toggleFavorite(product.$id)}
               >
                 <Heart
                   className={`h-5 w-5 ${
-                    favorites.has(product.id) ? "fill-destructive text-destructive" : "text-foreground"
+                    favorites.has(product.$id) ? "fill-destructive text-destructive" : "text-foreground"
                   }`}
                 />
               </Button>

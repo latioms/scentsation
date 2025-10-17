@@ -50,7 +50,7 @@ export default function SearchClient() {
 			});
 
 			const formattedProducts: Product[] = filtered.map((doc: any) => ({
-				id: doc.$id,
+				$id: doc.$id,
 				titre: doc.titre || '',
 				marque: doc.marque || '',
 				description: doc.description || '',
@@ -155,7 +155,7 @@ export default function SearchClient() {
 				{products.length > 0 && (
 					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 						{products.map((product) => (
-							<ProductCard key={product.id} product={product} />
+							<ProductCard key={product.$id} product={product} />
 						))}
 					</div>
 				)}

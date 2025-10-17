@@ -47,7 +47,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Pages de produits dynamiques
   const products = await getAllProducts();
   const productPages: MetadataRoute.Sitemap = products.map((product) => ({
-    url: `${baseUrl}/products/${product.id}`,
+    url: `${baseUrl}/products/${product.$id}`,
     lastModified: new Date(),
     changeFrequency: 'weekly',
     priority: 0.8,

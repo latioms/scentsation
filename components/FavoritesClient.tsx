@@ -48,7 +48,7 @@ export default function FavoritesClient() {
       const validProducts = productDocs.filter(doc => doc !== null);
 
       const formattedProducts: Product[] = validProducts.map((doc: any) => ({
-        id: doc.$id,
+        $id: doc.$id,
         titre: doc.titre || '',
         marque: doc.marque || '',
         description: doc.description || '',
@@ -116,7 +116,7 @@ export default function FavoritesClient() {
           <div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {products.map((product) => (
-                <div key={product.id}>
+                <div key={product.$id}>
                   <ProductCard product={product} />
                 </div>
               ))}

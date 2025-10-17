@@ -15,7 +15,7 @@ export async function getAllProducts(): Promise<Product[]> {
     );
     
     return response.documents.map(doc => ({
-      id: doc.$id,
+      $id: doc.$id,
       titre: doc.titre,
       marque: doc.marque,
       description: doc.description,
@@ -46,7 +46,7 @@ export async function getProductById(id: string): Promise<Product | null> {
     );
     
     return {
-      id: response.$id,
+      $id: response.$id,
       titre: response.titre,
       marque: response.marque,
       description: response.description,
